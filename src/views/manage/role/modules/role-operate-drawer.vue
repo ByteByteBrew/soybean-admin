@@ -6,8 +6,6 @@ import { $t } from '@/locales';
 import { enableStatusOptions } from '@/constants/business';
 import type { RoleModel } from '@/service/api';
 import { createRole, updateRole } from '@/service/api';
-import MenuAuthModal from './menu-auth-modal.vue';
-import ButtonAuthModal from './button-auth-modal.vue';
 
 defineOptions({
   name: 'RoleOperateDrawer'
@@ -127,12 +125,6 @@ watch(visible, () => {
           <NInputNumber v-model:value="model.order" placeholder="order" />
         </NFormItem>
       </NForm>
-      <NSpace v-if="isEdit">
-        <NButton @click="openMenuAuthModal">{{ $t('page.manage.role.menuAuth') }}</NButton>
-        <MenuAuthModal v-model:visible="menuAuthVisible" :role-id="roleId" />
-        <NButton @click="openButtonAuthModal">{{ $t('page.manage.role.buttonAuth') }}</NButton>
-        <ButtonAuthModal v-model:visible="buttonAuthVisible" :role-id="roleId" />
-      </NSpace>
       <template #footer>
         <NSpace :size="16">
           <NButton @click="closeDrawer">{{ $t('common.cancel') }}</NButton>

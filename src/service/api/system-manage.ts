@@ -65,8 +65,8 @@ export function fetchGetAllPages() {
 
 /** get menu tree */
 export function fetchGetMenuTree() {
-  return request<Api.SystemManage.MenuTree[]>({
-    url: '/systemManage/getMenuTree',
+  return request<Api.SystemManage.Menu[]>({
+    url: '/route/tree',
     method: 'get'
   });
 }
@@ -112,6 +112,47 @@ export function deleteRole(id: string) {
     url: '/role',
     method: 'delete',
     data: [id]
+  });
+}
+
+/**
+ * 获取角色对应菜单数组集合
+ *
+ * @param roleId 角色ID
+ * @returns 菜单数组集合
+ */
+export function fetchGetRoleMenuIds(roleId: string) {
+  return request<string[]>({
+    url: `/route/listMenuIdByRoleId/${roleId}`,
+    method: 'get'
+  });
+}
+
+/**
+ * 角色授权菜单
+ *
+ * @param req 授权角色菜单实体
+ * @returns nothing
+ */
+export function fetchAssignRoutes(req: Api.SystemManage.RoleMenu) {
+  return request<boolean>({
+    url: '/permission/authRoleMenu',
+    method: 'post',
+    data: req
+  });
+}
+
+/**
+ * 角色授权API
+ *
+ * @param req 授权角色API实体
+ * @returns nothing
+ */
+export function fetchAssignPermission(req: Api.SystemManage.RolePermission) {
+  return request<boolean>({
+    url: '/permission/authRoleOperation',
+    method: 'post',
+    data: req
   });
 }
 
@@ -233,5 +274,26 @@ export function deleteUser(id: string) {
     url: '/user',
     method: 'delete',
     data: [id]
+  });
+}
+
+/** get api-endpoint tree */
+export function fetchGetApiEndpointTree() {
+  return request<Api.SystemManage.ApiEndpoint[]>({
+    url: '/api',
+    method: 'get'
+  });
+}
+
+/**
+ * 获取角色对应API数组集合
+ *
+ * @param roleCode 角色code
+ * @returns API数组集合
+ */
+export function fetchGetRoleApiEndpoints(roleId: string) {
+  return request<string[]>({
+    url: `/api/listApiOperationIdByRoleId/${roleId}`,
+    method: 'get'
   });
 }

@@ -1,5 +1,7 @@
 <script setup lang="tsx">
 import { NButton, NPopconfirm, NTag } from 'naive-ui';
+import { useBoolean } from '@sa/hooks';
+import { ref } from 'vue';
 import { deleteRole, fetchGetRoleList } from '@/service/api';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
@@ -7,8 +9,13 @@ import { $t } from '@/locales';
 import { enableStatusRecord } from '@/constants/business';
 import RoleOperateDrawer from './modules/role-operate-drawer.vue';
 import RoleSearch from './modules/role-search.vue';
+import MenuAuthModal from './modules/menu-auth-modal.vue';
+import ApiEndpointAuthModal from './modules/api-endpoint-auth-modal.vue';
 
 const appStore = useAppStore();
+
+const { bool: menuAuthVisible, setTrue: openMenuAuthModal } = useBoolean();
+const { bool: apiEndpointAuthVisible, setTrue: openApiEndpointAuthModal } = useBoolean();
 
 const {
   columns,
@@ -84,9 +91,25 @@ const {
       key: 'operate',
       title: $t('common.operate'),
       align: 'center',
-      width: 130,
+      minWidth: 240,
       render: row => (
         <div class="flex-center gap-8px">
+          <NButton
+            type="primary"
+            quaternary
+            size="small"
+            onClick={() => handleRoleAction(row.id, row.code, openMenuAuthModal)}
+          >
+            菜单权限
+          </NButton>
+          <NButton
+            type="primary"
+            quaternary
+            size="small"
+            onClick={() => handleRoleAction(row.id, row.code, openApiEndpointAuthModal)}
+          >
+            API权限
+          </NButton>
           <NButton type="primary" ghost size="small" onClick={() => edit(row.id)}>
             {$t('common.edit')}
           </NButton>
@@ -118,6 +141,9 @@ const {
   // closeDrawer
 } = useTableOperate(data, getData);
 
+const roleId = ref<string>('-1');
+const roleCode = ref<string>('-1');
+
 async function handleBatchDelete() {
   // request
   console.log(checkedRowKeys.value);
@@ -137,6 +163,12 @@ async function handleDelete(id: string) {
 
 function edit(id: number) {
   handleEdit(id);
+}
+
+function handleRoleAction(id: string, code: string, action: () => void): void {
+  roleId.value = id;
+  roleCode.value = code;
+  action();
 }
 </script>
 
@@ -174,6 +206,8 @@ function edit(id: number) {
         @submitted="getDataByPage"
       />
     </NCard>
+    <MenuAuthModal v-model:visible="menuAuthVisible" :role-id="roleId" />
+    <ApiEndpointAuthModal v-model:visible="apiEndpointAuthVisible" :role-id="roleId" />
   </div>
 </template>
 

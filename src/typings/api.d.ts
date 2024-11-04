@@ -104,6 +104,18 @@ declare namespace Api {
       order: number;
     }>;
 
+    /** role menu */
+    type RoleMenu = {
+      roleId: string;
+      menuIds: string[];
+    };
+
+    /** role menu */
+    type RolePermission = {
+      roleId: string;
+      operationIds: string[];
+    };
+
     /** role search params */
     type RoleSearchParams = CommonType.RecordNullable<
       Pick<Api.SystemManage.Role, 'name' | 'code' | 'status'> & CommonSearchParams
@@ -224,6 +236,15 @@ declare namespace Api {
       label: string;
       pId: number;
       children?: MenuTree[];
+    };
+
+    type ApiEndpoint = {
+      operationId: string;
+      path: string;
+      httpMethod: string;
+      permissions: string;
+      summary: string;
+      description: string;
     };
   }
 }
