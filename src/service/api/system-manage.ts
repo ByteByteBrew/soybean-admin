@@ -297,3 +297,85 @@ export function fetchGetRoleApiEndpoints(roleId: string) {
     method: 'get'
   });
 }
+
+/** get tenant list */
+export function fetchGetTenantList(params?: Api.SystemManage.TenantSearchParams) {
+  return request<Api.SystemManage.TenantList>({
+    url: '/tenant',
+    method: 'get',
+    params
+  });
+}
+
+export type TenantModel = Pick<
+  Api.SystemManage.Tenant,
+  'name' | 'contactUserId' | 'contactAccountName' | 'status' | 'website' | 'expireTime' | 'menuIds' | 'operationIds'
+>;
+
+/**
+ * 创建租户
+ *
+ * @param req 租户实体
+ * @returns nothing
+ */
+export function createTenant(req: TenantModel) {
+  return request({
+    url: '/tenant',
+    method: 'post',
+    data: req
+  });
+}
+
+/**
+ * 更新租户
+ *
+ * @param req 租户实体
+ * @returns nothing
+ */
+export function updateTenant(req: TenantModel) {
+  return request({
+    url: '/tenant',
+    method: 'put',
+    data: req
+  });
+}
+
+/**
+ * 删除租户
+ *
+ * @param id 删除ID
+ * @returns nothing
+ */
+export function deleteTenant(id: string) {
+  return request({
+    url: '/tenant',
+    method: 'delete',
+    data: [id]
+  });
+}
+
+/**
+ * 获取租户对应菜单数组集合
+ *
+ * @param tenantId 租户ID
+ * @returns 菜单数组集合
+ */
+export function fetchGetTenantMenuIds(tenantId: string) {
+  return request<string[]>({
+    url: `/route/listMenuIdByTenantId/${tenantId}`,
+    method: 'get'
+  });
+}
+
+/**
+ * 获取租户对应API数组集合
+ *
+ * @param tenantId 租户ID
+ * @returns API数组集合
+ */
+export function fetchGetTenantOperationIds(tenantId: string) {
+  return request<string[]>({
+    url: `/api/listApiOperationIdByTenantId/${tenantId}`,
+    method: 'get'
+  });
+}

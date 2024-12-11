@@ -246,5 +246,28 @@ declare namespace Api {
       summary: string;
       description: string;
     };
+
+    type Tenant = Common.CommonRecord<{
+      /** 租户名称 */
+      name: string;
+      /** 租户联系人账号ID */
+      contactUserId: string;
+      /** 租户联系人账号名称 */
+      contactAccountName: string;
+      /** 租户域名网站 */
+      website?: string;
+      /** 是否内置 */
+      builtIn: boolean;
+      /** 租户过期时间 */
+      expireTime: string;
+      menuIds: string[];
+      operationIds: string[];
+    }>;
+
+    type TenantSearchParams = CommonType.RecordNullable<
+      Pick<Api.SystemManage.Tenant, 'name' | 'contactAccountName' | 'status'> & CommonSearchParams
+    >;
+
+    type TenantList = Common.PaginatingQueryRecord<Tenant>;
   }
 }

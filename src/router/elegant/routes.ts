@@ -103,6 +103,15 @@ export const generatedRoutes: GeneratedRoute[] = [
         }
       },
       {
+        name: 'manage_tenant',
+        path: '/manage/tenant',
+        component: 'view.manage_tenant',
+        meta: {
+          title: 'manage_tenant',
+          i18nKey: 'route.manage_tenant'
+        }
+      },
+      {
         name: 'manage_user',
         path: '/manage/user',
         component: 'view.manage_user',
